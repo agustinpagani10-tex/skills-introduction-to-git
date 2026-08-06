@@ -310,10 +310,16 @@ function updateScore() {
   document.getElementById("score").textContent = score;
 }
 
-// Handle keyboard input
-function handleKeyPress(e) {
-  if (gameOver) return;
+function updateScore() {
+  document.getElementById("score").textContent = score;
 
+  // Update high score if current score exceeds it
+  if (score > highScore) {
+    highScore = score;
+    document.getElementById("high-score").textContent = highScore;
+    localStorage.setItem("stackOverflownHighScore", highScore);
+  }
+}
   switch (e.key) {
     case "ArrowLeft":
       e.preventDefault();
