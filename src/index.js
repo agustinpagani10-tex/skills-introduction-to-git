@@ -38,7 +38,7 @@ let currentPiece = null;
 let currentX = 0;
 let currentY = 0;
 let score = 0;
-let gameOver = false;
+let highScore = 0;
 let isPaused = false;
 let dropCounter = 0;
 let dropInterval = 1000;
@@ -57,8 +57,9 @@ function init() {
     .fill(null)
     .map(() => Array(COLS).fill(0));
 
-  // Set initial target pattern
-  setNewTargetPattern();
+ // Load high score from localStorage
+highScore = parseInt(localStorage.getItem("stackOverflownHighScore")) || 0;
+document.getElementById("high-score").textContent = highScore;
 
   // Spawn first piece
   spawnPiece();
@@ -309,10 +310,16 @@ function updateScore() {
   document.getElementById("score").textContent = score;
 }
 
-// Handle keyboard input
-function handleKeyPress(e) {
-  if (gameOver) return;
+function updateScore() {
+  document.getElementById("score").textContent = score;
 
+  // Update high score if current score exceeds it
+  if (score > highScore) {
+    highScore = score;
+    document.getElementById("high-score").textContent = highScore;
+    localStorage.setItem("stackOverflownHighScore", highScore);
+  }
+}
   switch (e.key) {
     case "ArrowLeft":
       e.preventDefault();
